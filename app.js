@@ -454,19 +454,24 @@ const targetTitleEl = document.getElementById('target-title');
 const playBtn = document.getElementById('play-btn');
 
 function showActiveTarget(group){
-	// if group has multiple, join titles
-	const titles = group.members.map(m => m.beffroi.titre);
-	targetTitleEl.textContent = titles.join(' — ')+" à "+m.beffroi._distanceKm.toFixed(1)+" km";
+	// Si plusieurs beffrois sont dans le même groupe, on les affiche tous
+	const titles = group.members.map(m => {
+		const b = m.beffroi;
+		const dist = b.distance ? b.distance.toFixed(1) : '?';
+		return `${b.titre} à ${dist} km`;
+	});
+
+	targetTitleEl.textContent = titles.join(' — ');
 	targetTitleEl.classList.remove('hidden');
 	playBtn.classList.remove('hidden');
 
-	// set click handler to play the first beffroi's audio in the group (or implement list)
+	// Au clic, on lance le son du premier beffroi du groupe
 	playBtn.onclick = () => {
-		// stop others and play the first in the group's members
 		const first = group.members[0].beffroi;
 		playAudioFor(first);
 	};
 }
+
 
 function hideActiveTarget(){
 	targetTitleEl.classList.add('hidden');
