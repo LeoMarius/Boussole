@@ -215,12 +215,12 @@ function loadBeffroiData(){
 /**
  * Mettre à jour distances et bearings depuis la position utilisateur
  */
-function updateBeffroisComputed(){
+function updateBeffroisComputed() {
 	if (!state.userPos) return;
-	state.beffrois.forEach(b => {
-		b._distanceKm = distanceKm(state.userPos.lat, state.userPos.lon, b.lat, b.lon);
-		b._bearing = bearingDeg(state.userPos.lat, state.userPos.lon, b.lat, b.lon); // 0..360
-	});
+	for (const b of state.beffrois) {
+		b.distance = haversine(state.userPos.lat, state.userPos.lon, b.localisation.latitude, b.localisation.longiture);
+		b.bearing = bearing(state.userPos.lat, state.userPos.lon, b.localisation.latitude, b.localisation.longiture);
+	}
 }
 
 /* ===========================
@@ -456,7 +456,7 @@ const playBtn = document.getElementById('play-btn');
 function showActiveTarget(group){
 	// if group has multiple, join titles
 	const titles = group.members.map(m => m.beffroi.titre);
-	targetTitleEl.textContent = titles.join(' — ');
+	targetTitleEl.textContent = titles.join(' — ')+" à "+m.beffroi.distance.toFixed(1)+" km";
 	targetTitleEl.classList.remove('hidden');
 	playBtn.classList.remove('hidden');
 
