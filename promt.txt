@@ -1,0 +1,47 @@
+Je veux une page html / js qui déclenche des morceaux audio,
+sépare les fichiers html / js / css
+
+j'ai un json qui contient la liste des audio structurés ainsi :
+{
+    "audios" :[
+        { 
+            "name":"nom_de_audio",
+            "titre":"Jeff aux catacombes",
+            "path":"/audio/nom_de_audio.mp3",
+            "url":"catacombes",
+            "keyboard_key":"a",
+            "duree":40,
+            "id":13
+        },
+        { 
+            "name":"autre_audio",
+            "titre":"Mamie au tango",
+            "path":"/audio/autre_audio.mp3",
+            "url":"tango",
+            "keyboard_key":"b",
+            "duree":64,
+            "id":25
+        }
+    ]
+}
+
+
+un son d'ambiance "/ambiance/son.mp3" est lu en permanance, lorsqu'on appui sur un touche de clavier, on diminue progressivement le volume de l'ambiance et le son correspondant se déclenche
+si un autre son était déjà en lecture, on fait un fondu (3s) pour le couper avant de déclencher le suivant
+a la fin de la lecture d'un son, on remonte progressivement le volume de l'ambiance
+
+on a les variable volume_low = 40 , volume_high = 100 , fadding = 3 qui correspondent au pourcentage de volume visés et a la durée du fade
+
+La page affiche uniquement un champ texte qui accepte des chiffres et un titre "entrez le code de votre son", si on entre un code correspondant à un id, on lis lance le son correspondant (même fonction que pour l'appui de touche)
+
+Quand un audio est en lecture on affiche le texte  : " Lecture en cours : "titre" "
+et on le masque quand la lecture est finie,
+On laisse en permanence le bloc permettant de choisir l'id.
+
+Pour l'affichage, un texte blanc sur fond noir, une typographie sans serif, des textes assez grands.
+Titre de la page "Ma ville depuis le beffroi"
+
+Si on ouvre la page avec l'argument "url" on déclenche dès le chargement le son correspondant à l'argument, exemple : http://url.com#tango (peut être différent)
+
+Sépare bien les différentes fonctions pour que ce soit plus simple à comprendre et modifier :  volume_son_ambiance(volume) , lire_son(id) - selon si un son est en cours ou pas stop le son en cours et lance le suivant, fin_son() qui se déclenche à la fin d'un son, stop_current()
+avec la variable  current_id (0 ou id du son) qui permet de savoir si un son est en lecture et lequel (pour éviter de relancer deux fois le même son)

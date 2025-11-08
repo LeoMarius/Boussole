@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+	<title>Carte sonore des beffrois</title>
+	<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+	<!-- Overlay initial pour demander permissions -->
+	<div id="overlay" class="overlay">
+		<div class="overlay-card">
+			<h1>Autoriser les capteurs</h1>
+			<p>Le site requiert l'accès à la position GPS et à l'orientation (boussole). Sans ces autorisations l'application ne peut pas fonctionner.</p>
+			<button id="btn-request" class="btn">Activer GPS & Boussole</button>
+			<p class="hint">Si vous utilisez iOS, autorisez la "boussole" depuis la popup du navigateur.</p>
+		</div>
+	</div>
+
+	<!-- Message si autorisations refusées -->
+	<div id="denied" class="overlay hidden">
+		<div class="overlay-card">
+			<h2>Accès refusé</h2>
+			<p>Vous avez refusé les autorisations. Impossible d'utiliser l'application.</p>
+			<button id="btn-retry" class="btn">Réessayer</button>
+		</div>
+	</div>
+
+	<!-- Zone principale -->
+	<main id="app" class="hidden">
+		<header class="topbar">
+			<h2>Beffrois autour de vous</h2>
+			<div id="info">
+				<span id="coords">--</span>
+				<span id="heading">--°</span>
+			</div>
+		</header>
+
+		<section class="canvas-wrap">
+			<canvas id="radar"></canvas>
+		</section>
+
+		<footer class="controls">
+			<div id="target-title" class="target-title hidden"></div>
+			<button id="play-btn" class="btn primary hidden">Écouter le beffroi</button>
+		</footer>
+	</main>
+
+	<!-- include beffroi JSON (exemple) : tu peux remplacer par fetch si fichier externe -->
+	<script id="beffroi-data" type="application/json">
+	{
+	    "beffroi" :[
+	        {
+	            "titre":"Beffroi d'Arras",
+	            "path":"/audio/arras.mp3",
+	            "localisation": {
+	                "longiture" : 2.777,
+	                "latitude" : 50.291
+	            }
+	        },
+	        {
+	            "titre":"Beffroi de Boulogne",
+	            "path":"/audio/boulogne.mp3",
+	            "localisation": {
+	                "longiture" : 1.613,
+	                    "latitude" : 50.725
+	            },
+	            "source" : "http://url.com/boulogne"
+	        }
+	    ]
+	}
+	</script>
+
+	<script src="app.js"></script>
+</body>
+</html>
