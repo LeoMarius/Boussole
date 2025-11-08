@@ -2,8 +2,8 @@
    CONFIG / CONSTANTS
    =========================== */
 const CONFIG = {
-	alignmentToleranceDeg: 2,   // tolérance d'alignement en degrés (+/-)
-	groupSpacingDeg: 2,        // espacement min entre lignes dans un groupe (deg)
+	alignmentToleranceDeg: 5,   // tolérance d'alignement en degrés (+/-)
+	groupSpacingDeg: 3,        // espacement min entre lignes dans un groupe (deg)
 	maxDisplayDistanceKm: 200, // distance max affichée (pour échelle)
 	lineMaxLengthPx: 260,      // longueur max pour une ligne (px)
 	canvasSize: 720,           // taille de canvas (css responsive will scale)
@@ -147,6 +147,7 @@ function startGeolocationWatch(){
 	geoWatchId = navigator.geolocation.watchPosition(pos => {
 		state.userPos = { lat: pos.coords.latitude, lon: pos.coords.longitude };
 		updateBeffroisComputed();
+        if (state.lastRender === 0) drawRadar();
 	}, err => {
 		console.warn('watchPosition error', err);
 	}, {enableHighAccuracy:true, maximumAge:5000, timeout:10000});
@@ -157,8 +158,11 @@ function startGeolocationWatch(){
    =========================== */
 
 function startOrientationListener(){
-	window.addEventListener('deviceorientation', onDeviceOrientation, true);
-	// Also listen to absolute orientation where available (for some devices)
+	if ('ondeviceorientationabsolute' in window) {
+		window.addEventListener('deviceorientationabsolute', onDeviceOrientation, true);
+	} else {
+		window.addEventListener('deviceorientation', onDeviceOrientation, true);
+	}
 }
 
 function onDeviceOrientation(e){
