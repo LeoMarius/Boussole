@@ -456,7 +456,7 @@ const playBtn = document.getElementById('play-btn');
 function showActiveTarget(group){
 	// if group has multiple, join titles
 	const titles = group.members.map(m => m.beffroi.titre);
-	targetTitleEl.textContent = titles.join(' — ');
+	targetTitleEl.textContent = titles.join(' — ')+" à "+m.beffroi._distanceKm.toFixed(1)+" km";
 	targetTitleEl.classList.remove('hidden');
 	playBtn.classList.remove('hidden');
 
