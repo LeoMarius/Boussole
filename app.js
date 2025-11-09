@@ -457,7 +457,7 @@ function showActiveTarget(group){
 	// Si plusieurs beffrois sont dans le même groupe, on les affiche tous
 	const titles = group.members.map(m => {
 		const b = m.beffroi;
-		const dist = b.distance ? b.distance.toFixed(1) : '?';
+		const dist = b.b._distanceKm ? b.b._distanceKm.toFixed(1) : '?';
 		return `${b.titre} à ${dist} km`;
 	});
 
